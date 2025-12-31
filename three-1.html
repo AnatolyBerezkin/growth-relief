@@ -1,0 +1,1966 @@
+<div id="layout" style="display:flex; flex-direction:row; height:100vh; width:100%; font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#d0e2ff,#f0f5ff); color:#1a1f27;">
+    <!-- LEFT PANE -->
+
+    <div id="leftPane" style=
+    "width:420px; flex-shrink:0; padding:18px; box-sizing:border-box; background:linear-gradient(to bottom,#c7dbff,#dce8ff); border-right:1px solid #9fb4d6; overflow-y:auto; height:100vh; box-shadow:4px 0 12px rgba(0,0,0,0.12);">
+        <div id="controls">
+            <!-- SECTION HEADER -->
+
+            <h2 style="margin:14px 0 8px; font-size:15px; font-weight:600; color:#003366; border-bottom:1px solid #9fb4d6; padding-bottom:4px;">
+                Growth
+            </h2>
+            <!-- TABLE -->
+
+            <table style="width:100%; border-collapse:collapse;">
+                <tr>
+                    <td style="padding:4px 2px; vertical-align:middle;">
+                        Attractors:
+                    </td>
+                    <td style="padding:4px 2px; vertical-align:middle;">
+                        <input id="points" type="number" value="5000" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Kill distance:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="killDist" type="number" value="5" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Influence distance:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="influenceDist" type="number" value="10" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Branch length:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="branchLen" type="number" value="3" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Canvas width:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="canvasW" type="number" value="300" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Canvas height:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="canvasH" type="number" value="200" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Attractor mode:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <select id="attrMode" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;">
+                            <option value="uniform">
+                                Uniform
+                            </option>
+                            <option value="fromfile">
+                                From file
+                            </option>
+                            <option value="hexmesh">
+                                Hexagonal mesh
+                            </option>
+                            <option value="rectmesh">
+                                Rectangular mesh
+                            </option>
+                        </select> <input type="file" id="attractorImageInput" accept="image/*" style="display:none;" /> <button id="loadAttractorImageBtn" style=
+                        "display:none; padding:6px 16px; font-size:14px; font-weight:600; background:#4a90e2; border-radius:6px; border:1px solid #3a78c2; color:#fff; cursor:pointer;">Load attractor
+                        image</button>
+                    </td>
+                </tr>
+
+                <tr id="gridPeriodLabel" style="display:none;">
+                    <td style="padding:4px 2px;">
+                        Grid cells:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="gridCellsX" type="number" value="35" min="1" style=
+                        "width:48%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                        <input id="gridCellsY" type="number" value="35" min="1" style=
+                        "width:48%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr id="gridProbLabel" style="display:none;">
+                    <td style="padding:4px 2px;">
+                        Grid probability:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="gridProb" type="range" min="0" max="1" step="0.01" value="1" style="width:120px; height:4px; border-radius:4px; background:#c0cce0; outline:none;" />
+                    </td>
+                </tr>
+
+                <tr id="gridJitterLabel" style="display:none;">
+                    <td style="padding:4px 2px;">
+                        Grid jitter:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="gridJitter" type="range" min="0" max="1" step="0.01" value="0.2" style="width:120px; height:4px; border-radius:4px; background:#c0cce0; outline:none;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Roots:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="roots" type="number" value="5" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Root mode:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <select id="rootMode" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;">
+                            <option value="random0">
+                                Random
+                            </option>
+                            <option value="random1">
+                                Random (bottom)
+                            </option>
+                            <option value="line">
+                                Line (bottom)
+                            </option>
+                            <option value="circle">
+                                Circle
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="padding:4px 2px;">
+                        <button id="start" style=
+                        "padding:6px 16px; font-size:14px; font-weight:600; background:#4a90e2; border-radius:6px; border:1px solid #3a78c2; color:#fff; cursor:pointer;">Start growth</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="padding:4px 2px;">
+                        <canvas id="canvas" width="300" height="200" style="background:#000; border-radius:6px; margin-top:10px; border:1px solid #9fb4d6;">
+                        </canvas>
+                    </td>
+                </tr>
+            </table>
+            <!-- DEPTH PROFILE -->
+
+            <h2 style="margin:14px 0 8px; font-size:15px; font-weight:600; color:#003366; border-bottom:1px solid #9fb4d6; padding-bottom:4px;">
+                Depth profile
+            </h2>
+
+            <table style="width:100%; border-collapse:collapse;">
+                <tr>
+                    <td colspan="2" style="padding:4px 2px;">
+                        <canvas id="bezierCanvas" width="300" height="150" style="background:#333; border-radius:6px; margin-top:10px; border:1px solid #9fb4d6;">
+                        </canvas>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Max thickness (px):
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="depthThickness" type="number" value="25" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Bilateral radius:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="bilateralRadius" type="number" value="2" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="padding:4px 2px;">
+                        <button id="genDepth" style=
+                        "padding:6px 16px; font-size:14px; font-weight:600; background:#4a90e2; border-radius:6px; border:1px solid #3a78c2; color:#fff; cursor:pointer;">Generate Depth Map</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="padding:4px 2px;">
+                        <button id="export16" onclick="exportHeightmap16()" style=
+                        "padding:6px 16px; font-size:14px; font-weight:600; background:#4a90e2; border-radius:6px; border:1px solid #3a78c2; color:#fff; cursor:pointer;">Export PNG</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="padding:4px 2px;">
+                        <canvas id="depthCanvas" width="300" height="200" style="background:#000; border-radius:6px; margin-top:10px; border:1px solid #9fb4d6;">
+                        </canvas>
+                    </td>
+                </tr>
+            </table>
+            <!-- PANEL & STL -->
+
+            <h2 style="margin:14px 0 8px; font-size:15px; font-weight:600; color:#003366; border-bottom:1px solid #9fb4d6; padding-bottom:4px;">
+                Panel &amp; STL
+            </h2>
+
+            <table style="width:100%; border-collapse:collapse;">
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Panel thickness (mm):
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="panelThickness" type="number" value="50" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Relief height (mm):
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <input id="reliefHeight" type="number" value="20" style=
+                        "width:100%; box-sizing:border-box; margin-left:6px; margin-bottom:6px; font-size:13px; background:#fff; border:1px solid #9fb4d6; border-radius:6px; padding:6px 8px; color:#1a1f27;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:4px 2px;">
+                        Invert:
+                    </td>
+                    <td style="padding:4px 2px;">
+                        <label style="display:flex; align-items:center;"><input type="checkbox" id="invertToggle" style="margin-right:6px;" /> <span>Invert</span></label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="padding:4px 2px;">
+                        <button id="buildMesh" style=
+                        "padding:6px 16px; font-size:14px; font-weight:600; background:#4a90e2; border-radius:6px; border:1px solid #3a78c2; color:#fff; cursor:pointer;">Build 3D Mesh</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="padding:4px 2px;">
+                        <button id="exportSTL" style=
+                        "padding:6px 16px; font-size:14px; font-weight:600; background:#4a90e2; border-radius:6px; border:1px solid #3a78c2; color:#fff; cursor:pointer;">Export STL</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!-- RIGHT PANE -->
+
+    <div id="rightPane" style="flex:1; position:relative; height:100vh; background:#ffffff;">
+        <div id="threeContainer" style="width:100%; height:100%; position:absolute; inset:0;">
+        </div>
+    </div>
+</div>
+<!-- three.js from CDN -->
+<!-- three.js r128 (global build) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script> <!-- OrbitControls r128 (global build) -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script> -->
+ 
+<script>
+
+/* <![CDATA[ */
+
+
+// ---------- Branch growth system ----------
+// This section implements a space colonization algorithm:
+// - Attractors represent points that "pull" branches toward themselves.
+// - Branches grow iteratively toward nearby attractors.
+// - When an attractor gets too close to a branch, it is removed.
+// - This produces natural tree/vein-like structures.
+
+class Branch {
+  constructor(x, y, parent = null, len = 3) {
+    this.x = x;
+    this.y = y;
+    this.parent = parent;
+    this.growDir = { x: 0, y: 0 }; // accumulated growth direction
+    this.count = 0;                // number of attractors influencing this branch
+    this.len = len;                // branch segment length
+  }
+
+  // Create the next branch segment in the accumulated direction
+  next() {
+    return new Branch(
+      this.x + this.growDir.x * this.len,
+      this.y + this.growDir.y * this.len,
+      this,
+      this.len
+    );
+  }
+}
+
+// Wrap X coordinate horizontally (toroidal space)
+function wrapX(x, w) {
+  if (x < 0) return x + w;
+  if (x >= w) return x - w;
+  return x;
+}
+
+function wrapY(y, h) {
+  if (y < 0) return y + h;
+  if (y >= h) return y - h;
+  return y;
+}
+
+// Distance between two points with horizontal wrapping
+function dist(ax, ay, bx, by, w, h) {
+  let dx = ax - bx;
+  if (dx > w / 2) dx -= w;
+  if (dx < -w / 2) dx += w;
+
+  let dy = ay - by;
+  if (dy > h / 2) dy -= h;
+  if (dy < -h / 2) dy += h;
+
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+//let canvas, ctx;
+let attractors = [];
+let branches = [];
+let params = {};
+// Global color constants (0xRRGGBB)
+const COLOR_BG = 0x000000;       // light blue background
+const COLOR_BRANCH = 0xffffff;   // dark branches
+const COLOR_ATTR = 0x00ff00;     // attractors
+const invertToggle = document.getElementById('invertToggle');
+
+console.log("canvas exists:", document.getElementById("canvas"));
+
+function drawAttractors() {
+    let canvas = document.getElementById("canvas");
+    let ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    let img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let data = img.data;
+
+    // Use params.attrColor if available, otherwise fall back to constant
+    let color = (params && typeof params.attrColor === "number")
+      ? params.attrColor
+      : COLOR_ATTR;
+
+    let r = (color >> 16) & 255;
+    let g = (color >> 8) & 255;
+    let b = color & 255;
+
+    for (let a of attractors) {
+        let x = a.x | 0;
+        let y = a.y | 0;
+
+        if (x < 0 || y < 0 || x >= canvas.width || y >= canvas.height) continue;
+
+        let i = (y * canvas.width + x) * 4;
+        data[i] = r;
+        data[i + 1] = g;
+        data[i + 2] = b;
+        data[i + 3] = 255;
+    }
+
+    ctx.putImageData(img, 0, 0);
+}
+
+// ===============================
+// Generate Hexagonal Mesh
+// ===============================
+function generateHexMesh() {
+    let nX = +document.getElementById("gridCellsX").value;
+    let nY = +document.getElementById("gridCellsY").value;
+
+    let W = canvas.width;
+    let H = canvas.height;
+
+    // Base period along X
+    let periodX = W / nX;
+
+    // Hex vertical spacing
+    let periodY = H / nY;
+
+    let prob = +document.getElementById("gridProb").value;
+    let jitter = +document.getElementById("gridJitter").value;
+
+    // jitter amplitude as fraction of half-period
+    let jitterAmpX = jitter * (periodX * 0.5);
+    let jitterAmpY = jitter * (periodY * 0.5);
+
+    attractors = [];
+
+    for (let iy = 0; iy < nY; iy++) {
+        for (let ix = 0; ix < nX; ix++) {
+
+            // Probability filter
+            if (Math.random() > prob) continue;
+
+            // Hex offset: odd rows shifted by half period
+            let offsetX = (iy % 2 === 1) ? periodX * 0.5 : 0;
+
+            // Center of hex cell
+            let cx = ix * periodX + offsetX + periodX * 0.5;
+            let cy = iy * periodY + periodY * 0.5;
+
+            // Jitter
+            let jitterX = (Math.random() - 0.5) * 2 * jitterAmpX;
+            let jitterY = (Math.random() - 0.5) * 2 * jitterAmpY;
+
+            let x = Math.round(cx + jitterX);
+            let y = Math.round(cy + jitterY);
+
+            // Wrap around (toroidal)
+            x = wrapX(x, W);
+            y = wrapY(y, H);
+
+            attractors.push({ x, y });
+        }
+    }
+}
+
+// ===============================
+// Generate Rectangular Mesh
+// ===============================
+function generateRectMesh() {
+    let nX = +document.getElementById("gridCellsX").value;
+    let nY = +document.getElementById("gridCellsY").value;
+
+    let W = canvas.width;
+    let H = canvas.height;
+
+    let periodX = W / nX;
+    let periodY = H / nY;
+
+    let prob = +document.getElementById("gridProb").value;
+    let jitter = +document.getElementById("gridJitter").value;
+
+    // jitter amplitude as fraction of half-period
+    let jitterAmpX = jitter * (periodX * 0.5);
+    let jitterAmpY = jitter * (periodY * 0.5);
+
+    attractors = [];
+
+    for (let iy = 0; iy < nY; iy++) {
+        for (let ix = 0; ix < nX; ix++) {
+
+            if (Math.random() > prob) continue;
+
+            let cx = ix * periodX + periodX * 0.5;
+            let cy = iy * periodY + periodY * 0.5;
+
+            // jitter controlled by slider
+            let jitterX = (Math.random() - 0.5) * 2 * jitterAmpX;
+            let jitterY = (Math.random() - 0.5) * 2 * jitterAmpY;
+
+            let x = Math.round(cx + jitterX);
+            let y = Math.round(cy + jitterY);
+
+            x = wrapX(x, W);
+            y = wrapY(y, H);
+
+            attractors.push({ x, y });
+        }
+    }
+}
+
+// ===============================
+// Load attractor image
+// ===============================
+function loadAttractorImage(file) {
+    let img = new Image();
+
+    img.onload = function () {
+
+        // --- Resize canvases to match the image ---
+        let canvas = document.getElementById("canvas");
+        let depthCanvas = document.getElementById("depthCanvas");
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        depthCanvas.width = img.width;
+        depthCanvas.height = img.height;
+
+        // Update UI fields
+        document.getElementById("canvasW").value = img.width;
+        document.getElementById("canvasH").value = img.height;
+
+        // --- Read pixels from the image ---
+        let temp = document.createElement("canvas");
+        temp.width = img.width;
+        temp.height = img.height;
+        let tctx = temp.getContext("2d");
+
+        tctx.drawImage(img, 0, 0);
+
+        let imgData = tctx.getImageData(0, 0, img.width, img.height);
+        let data = imgData.data;
+
+// --- Generate attractors from brightness with target count control ---
+
+// Save the user-defined target number of attractors
+let targetCount = +document.getElementById("points").value;
+
+// Temporary array for generation
+let generated = [];
+
+// Function that generates attractors using the same brightness rule
+function generateBatch() {
+    for (let y = 0; y < img.height; y++) {
+        for (let x = 0; x < img.width; x++) {
+
+            let idx = (y * img.width + x) * 4;
+            let v = data[idx]; // red channel (grayscale image)
+            let probability = v / 255;
+
+            if (Math.random() < probability) {
+                generated.push({ x, y });
+            }
+        }
+    }
+}
+
+// Generate until we exceed the target count
+generateBatch();
+while (generated.length < targetCount) {
+    generateBatch();
+}
+
+// If we overshoot, randomly remove extra attractors
+if (generated.length > targetCount) {
+    // Shuffle array (Fisher–Yates)
+    for (let i = generated.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [generated[i], generated[j]] = [generated[j], generated[i]];
+    }
+    // Trim to target size
+    generated.length = targetCount;
+}
+
+// Final attractor list
+attractors = generated;
+
+        // Update UI
+        document.getElementById("points").value = attractors.length;
+
+        console.log("Attractors generated from image:", attractors.length);
+
+        // --- THE IMPORTANT PART ---
+        // Draw attractors AFTER all other load events finish
+        requestAnimationFrame(() => {
+            drawAttractors();
+        });
+
+        // Reset file input
+        document.getElementById("attractorImageInput").value = "";
+    };
+
+    img.src = URL.createObjectURL(file);
+}
+
+
+// Initialize attractors and root branches
+function initGrowth() {
+  params.points = +document.getElementById("points").value;
+  params.killDist = +document.getElementById("killDist").value;
+  params.influenceDist = +document.getElementById("influenceDist").value;
+  params.branchLen = +document.getElementById("branchLen").value;
+  params.canvasW = +document.getElementById("canvasW").value;
+  params.canvasH = +document.getElementById("canvasH").value;
+  params.bgColor = COLOR_BG;
+  params.branchColor = COLOR_BRANCH;
+  params.attrColor = COLOR_ATTR;
+  params.attrMode = document.getElementById("attrMode").value;
+  params.roots = +document.getElementById("roots").value;
+  params.rootMode = document.getElementById("rootMode").value;
+
+  canvas = document.getElementById("canvas");
+  canvas.width = params.canvasW;
+  canvas.height = params.canvasH;
+  ctx = canvas.getContext("2d");
+
+if (params.attrMode === "fromfile") {
+    console.log("Using attractors from file:", attractors.length);
+
+} else if (params.attrMode === "uniform") {
+    attractors = [];
+    for (let i = 0; i < params.points; i++) {
+        attractors.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height
+        });
+    }
+
+} else if (params.attrMode === "rectmesh") {
+    generateRectMesh();
+
+} else if (params.attrMode === "hexmesh") {
+    generateHexMesh();
+}
+
+  // Generate root branches depending on selected mode
+  branches = [];
+  if (params.rootMode === "line") {
+    // Evenly spaced along the bottom
+    for (let i = 0; i < params.roots; i++) {
+      branches.push(new Branch(
+        (i + 0.5) * (canvas.width / params.roots),
+        canvas.height - 20,
+        null,
+        params.branchLen
+      ));
+    }
+  } else if (params.rootMode === "random1") {
+    // Random positions along the bottom
+    for (let i = 0; i < params.roots; i++) {
+      branches.push(new Branch(
+        Math.random() * canvas.width,
+        canvas.height - 0,
+        null,
+        params.branchLen
+      ));
+    }
+  } else if (params.rootMode === "circle") {
+    // Roots arranged in a circle
+    let cx = canvas.width / 2;
+    let cy = canvas.height / 2;
+    let r = Math.min(canvas.width, canvas.height) * 0.3;
+    for (let i = 0; i < params.roots; i++) {
+      let a = (i / params.roots) * 2 * Math.PI;
+      branches.push(new Branch(
+        cx + r * Math.cos(a),
+        cy + r * Math.sin(a),
+        null,
+        params.branchLen
+      ));
+    }
+} else if (params.rootMode === "random0") {
+    // Select roots from attractors
+    for (let i = 0; i < params.roots; i++) {
+        let a = attractors[Math.floor(Math.random() * attractors.length)];
+
+        branches.push(new Branch(
+            a.x,
+            a.y,
+            null,
+            params.branchLen
+        ));
+    }
+}
+
+
+  drawGrowth();
+  loopGrowth();
+}
+
+// Perform one iteration of the growth algorithm
+function stepGrowth() {
+  // Reset growth directions
+  for (let b of branches) {
+    b.growDir.x = 0;
+    b.growDir.y = 0;
+    b.count = 0;
+  }
+
+  // Process attractors
+  for (let i = attractors.length - 1; i >= 0; i--) {
+    let a = attractors[i];
+    let closest = null;
+    let dmin = Infinity;
+
+    // Find closest branch within influence distance
+    for (let b of branches) {
+      let d = dist(a.x, a.y, b.x, b.y, canvas.width, canvas.height);
+
+      // Remove attractor if too close
+      if (d < params.killDist) {
+        attractors.splice(i, 1);
+        closest = null;
+        break;
+      }
+
+      if (d < params.influenceDist && d < dmin) {
+        closest = b;
+        dmin = d;
+      }
+    }
+
+    // Accumulate growth direction
+    if (closest) {
+      let dx = a.x - closest.x;
+      if (dx > canvas.width / 2) dx -= canvas.width;
+      if (dx < -canvas.width / 2) dx += canvas.width;
+      let dy = a.y - closest.y;
+          if (dy > canvas.height / 2) dy -= canvas.height;
+          if (dy < -canvas.height / 2) dy += canvas.height;
+      let mag = Math.sqrt(dx * dx + dy * dy);
+
+      closest.growDir.x += dx / mag;
+      closest.growDir.y += dy / mag;
+      closest.count++;
+    }
+  }
+
+// Create new branches
+let newBranches = [];
+for (let b of branches) {
+  if (b.count > 0) {
+    b.growDir.x /= b.count;
+    b.growDir.y /= b.count;
+    let nb = b.next();
+    nb.x = wrapX(nb.x, canvas.width);
+    nb.y = wrapY(nb.y, canvas.height);
+    newBranches.push(nb);
+  }
+}
+
+// Stop if no new branches were created
+if (newBranches.length === 0) {
+  return false; // growth finished
+}
+
+branches.push(...newBranches);
+return true; // growth continues
+}
+
+// Draw branches and attractors
+function drawGrowth() {
+  ctx.fillStyle = "#" + params.bgColor.toString(16).padStart(6, "0");
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+let img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+let data = img.data;
+
+let color = params.attrColor; // 0xRRGGBB
+let r = (color >> 16) & 255;
+let g = (color >> 8) & 255;
+let b = color & 255;
+
+for (let a of attractors) {
+  let x = a.x | 0; // округление как у fillRect
+  let y = a.y | 0;
+
+  if (x < 0 || y < 0 || x >= canvas.width || y >= canvas.height) continue;
+
+  let i = (y * canvas.width + x) * 4;
+  data[i] = r;
+  data[i + 1] = g;
+  data[i + 2] = b;
+  data[i + 3] = 255;
+}
+
+ctx.putImageData(img, 0, 0);
+
+
+  ctx.strokeStyle = "#" + params.branchColor.toString(16).padStart(6, "0");
+  ctx.beginPath();
+  for (let b of branches) {
+    if (!b.parent) continue;
+
+    let x1 = b.x, y1 = b.y;
+    let x2 = b.parent.x, y2 = b.parent.y;
+
+    // wrapping for drawing
+        let dx = x1 - x2;
+        if (dx > canvas.width / 2) x2 += canvas.width;
+        else if (dx < -canvas.width / 2) x2 -= canvas.width;
+
+        let dy = y1 - y2;
+        if (dy > canvas.height / 2) y2 += canvas.height;
+        else if (dy < -canvas.height / 2) y2 -= canvas.height;
+
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+  }
+  ctx.stroke();
+}
+
+// Animation loop
+function loopGrowth() {
+  let alive = stepGrowth();   // returns false when no new branches created
+  drawGrowth();
+
+  if (alive) {
+    requestAnimationFrame(loopGrowth);
+  } else {
+    console.log("Growth finished.");
+  }
+}
+
+
+
+// ---------- Distance field utilities ----------
+// This section provides helper functions for computing the
+// signed distance field (SDF) from the generated branch structure.
+
+/**
+ * Compute the distance from point (px, py) to a line segment (x1, y1) → (x2, y2).
+ * This is the standard point-to-segment distance formula.
+ */
+function distToSegment(px, py, x1, y1, x2, y2) {
+  let vx = x2 - x1;
+  let vy = y2 - y1;
+  let wx = px - x1;
+  let wy = py - y1;
+
+  // Projection of w onto v
+  let c1 = vx * wx + vy * wy;
+  if (c1 <= 0) return Math.hypot(px - x1, py - y1);
+
+  let c2 = vx * vx + vy * vy;
+  if (c2 <= c1) return Math.hypot(px - x2, py - y2);
+
+  let b = c1 / c2;
+  let bx = x1 + b * vx;
+  let by = y1 + b * vy;
+
+  return Math.hypot(px - bx, py - by);
+}
+
+function distToSegmentWrapped(px, py, x1, y1, x2, y2, w, h) {
+
+  // find segment center
+  let cx = (x1 + x2) * 0.5;
+  let cy = (y1 + y2) * 0.5;
+
+  // wrap relative to center
+  let dx = px - cx;
+  if (dx > w / 2) { x1 += w; x2 += w; }
+  else if (dx < -w / 2) { x1 -= w; x2 -= w; }
+
+  let dy = py - cy;
+  if (dy > h / 2) { y1 += h; y2 += h; }
+  else if (dy < -h / 2) { y1 -= h; y2 -= h; }
+
+  return distToSegment(px, py, x1, y1, x2, y2);
+}
+
+// ---------- Bilateral blur ----------
+// This filter smooths the depth map while preserving edges.
+// It combines spatial weighting (distance in pixels)
+// and range weighting (difference in intensity).
+
+function bilateralBlur(img, width, height, radius, sigmaSpatial = 2, sigmaRange = 0.1) {
+  if (radius < 1) return img;
+
+  // img — is now Float32Array of the lenght width*height
+  let out = new Float32Array(img.length);
+
+  // Precompute spatial Gaussian weights
+  let spatialWeights = [];
+  for (let i = -radius; i <= radius; i++) {
+    spatialWeights.push(Math.exp(-(i * i) / (2 * sigmaSpatial * sigmaSpatial)));
+  }
+
+  const twoSigmaRange2 = 2 * sigmaRange * sigmaRange;
+
+  // Apply bilateral filter (float version)
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+
+      let center = img[y * width + x];
+
+      let sum = 0;
+      let wsum = 0;
+
+      for (let dy = -radius; dy <= radius; dy++) {
+        let yy = Math.min(height - 1, Math.max(0, y + dy));
+
+        for (let dx = -radius; dx <= radius; dx++) {
+          let xx = Math.min(width - 1, Math.max(0, x + dx));
+
+          let val = img[yy * width + xx];
+
+          // Spatial weight
+          let spatial = spatialWeights[dy + radius] * spatialWeights[dx + radius];
+
+          // Range weight (difference in float height)
+          let dr = val - center;
+          let range = Math.exp(-(dr * dr) / twoSigmaRange2);
+
+          let w = spatial * range;
+
+          sum += val * w;
+          wsum += w;
+        }
+      }
+
+      out[y * width + x] = sum / wsum;
+    }
+  }
+
+  return out;
+}
+
+// ---------- SDF depth map generation ----------
+// Converts the branch structure into a grayscale height map:
+// - For each pixel, compute distance to nearest branch segment.
+// - Convert distance to height using selected profile.
+// - Optionally apply bilateral blur for smoothing.
+
+// Float32 heightmap used for 3D mesh generation
+let heightFloat = null;
+let lastDepthImageData = null;
+
+// ---------- Bezier depth profile data ----------
+let maxThickness = parseFloat(document.getElementById("depthThickness").value);
+
+const bezierProfile = {
+    P0: { x: 0, y: 1 },
+    P1: { x: maxThickness * 0.25, y: 1 },
+    P2: { x: maxThickness * 0.75, y: 0 },
+    P3: { x: maxThickness, y: 0 },
+    table: new Float32Array(512)
+};
+
+function sampleBezier(P0, P1, P2, P3, t) {
+    const u = 1 - t;
+    return (
+        u*u*u * P0.y +
+        3*u*u*t * P1.y +
+        3*u*t*t * P2.y +
+        t*t*t * P3.y
+    );
+}
+
+function buildBezierTable(profile, N = 512) {
+    for (let i = 0; i < N; i++) {
+        const t = i / (N - 1);
+        profile.table[i] = sampleBezier(profile.P0, profile.P1, profile.P2, profile.P3, t);
+    }
+}
+
+function getHeightFromBezier(d, maxDist) {
+    const t = Math.min(1, d / maxDist);
+    const idx = Math.floor(t * (bezierProfile.table.length - 1));
+    return bezierProfile.table[idx];
+}
+
+function drawPoint(ctx, P, w, h, color) {
+    const x = (P.x / maxThickness) * w;
+    const y = h - P.y * h;
+
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, Math.PI * 2);
+
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#ffffff";   // белый контур
+    ctx.stroke();
+}
+
+function drawBezierEditor() {
+    const canvas = document.getElementById("bezierCanvas");
+    const ctx = canvas.getContext("2d");
+    const w = canvas.width;
+    const h = canvas.height;
+
+    ctx.clearRect(0, 0, w, h);
+
+    const x0 = bezierProfile.P0.x;
+    const x3 = bezierProfile.P3.x;
+
+    // Draw the Bezier curve
+    ctx.beginPath();
+    let screenX = (bezierProfile.P1.x / maxThickness) * w;
+    let screenY = h - bezierProfile.P1.y * h;
+    ctx.moveTo(screenX, screenY);
+
+    for (let i = 0; i <= 200; i++) {
+        const t = i / 200;
+
+        // X in physical pixel space (same units as P*.x)
+        const x = x0 + (x3 - x0) * t;
+
+        // Y in normalized [0..1]
+        const y = sampleBezier(
+            bezierProfile.P0,
+            bezierProfile.P1,
+            bezierProfile.P2,
+            bezierProfile.P3,
+            t
+        );
+
+        // Map physical X (0..maxThickness) to canvas width (0..w)
+        screenX = (x / maxThickness) * w;
+        screenY = h - y * h;
+        ctx.lineTo(screenX, screenY);
+    }
+
+    screenX = (bezierProfile.P2.x / maxThickness) * w;
+    screenY = h - bezierProfile.P2.y * h;
+    ctx.lineTo(screenX, screenY);
+
+    ctx.strokeStyle = "#ddd";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Draw control points
+    drawPoint(ctx, bezierProfile.P0, w, h, "white");
+    drawPoint(ctx, bezierProfile.P1, w, h, "#222");
+    drawPoint(ctx, bezierProfile.P2, w, h, "#222");
+    drawPoint(ctx, bezierProfile.P3, w, h, "white");
+ 
+    // Draw P3 label (its X coordinate)
+    screenX = (bezierProfile.P3.x / maxThickness) * w;
+    screenY = h - bezierProfile.P3.y * h;
+
+    ctx.fillStyle = "#fff";
+    ctx.font = "12px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(`x = ${bezierProfile.P3.x.toFixed(1)}`, screenX, screenY - 10);
+
+}
+
+let draggingPoint = null;
+
+function initBezierEditor() {
+    console.log("Bezier editor initialized");
+    const canvas = document.getElementById("bezierCanvas");
+    canvas.addEventListener("mousedown", onBezierMouseDown);
+    canvas.addEventListener("mousemove", onBezierMouseMove);
+    canvas.addEventListener("mouseup", onBezierMouseUp);
+    canvas.addEventListener("mouseleave", onBezierMouseUp);
+
+    buildBezierTable(bezierProfile);
+    drawBezierEditor();
+}
+
+function onBezierMouseDown(e) {
+    const canvas = e.target;
+    const rect = canvas.getBoundingClientRect();
+
+    // Convert mouse to PHYSICAL coordinates
+    const x = ((e.clientX - rect.left) / rect.width) * maxThickness;
+    const y = 1 - (e.clientY - rect.top) / rect.height;
+
+    const pts = ["P1", "P2", "P3"];
+    for (let p of pts) {
+        const dx = x - bezierProfile[p].x;
+        const dy = y - bezierProfile[p].y;
+
+        // hit radius in physical units
+        if (dx * dx + dy * dy < (maxThickness * 0.03) ** 2) {
+            draggingPoint = p;
+            return;
+        }
+    }
+}
+
+function onBezierMouseMove(e) {
+    if (!draggingPoint) return;
+
+    const canvas = e.target;
+    const rect = canvas.getBoundingClientRect();
+
+    // Convert mouse to PHYSICAL coordinates
+    let x = ((e.clientX - rect.left) / rect.width) * maxThickness;
+    let y = 1 - (e.clientY - rect.top) / rect.height;
+
+    // Clamp X to [0..maxThickness]
+    x = Math.max(0, Math.min(maxThickness, x));
+    y = Math.max(0, Math.min(1, y));
+
+    if (draggingPoint === "P3") {
+        const oldDx = bezierProfile.P3.x - bezierProfile.P2.x;
+
+        bezierProfile.P3.x = x;
+        bezierProfile.P3.y = 0;
+
+        bezierProfile.P2.x = bezierProfile.P3.x - oldDx;
+    }
+    else if (draggingPoint === "P2") {
+        bezierProfile.P2.x = x;
+        bezierProfile.P2.y = y;
+    }
+    else if (draggingPoint === "P1") {
+        bezierProfile.P1.x = x;
+        bezierProfile.P1.y = y;
+    }
+
+    buildBezierTable(bezierProfile);
+    drawBezierEditor();
+}
+
+function onBezierMouseUp() {
+    draggingPoint = null;
+}
+
+function setMaxThickness(newValue) {
+    // Update the editor's X-range
+    maxThickness = newValue;
+
+    // Clamp control points to the new range
+    bezierProfile.P1.x = Math.min(bezierProfile.P1.x, maxThickness);
+    bezierProfile.P2.x = Math.min(bezierProfile.P2.x, maxThickness);
+    bezierProfile.P3.x = Math.min(bezierProfile.P3.x, maxThickness);
+
+    // Rebuild the curve and redraw the editor
+    buildBezierTable(bezierProfile);
+    drawBezierEditor();
+}
+
+function generateDepthMapSDF() {
+    if (!canvas) {
+        canvas = document.getElementById("canvas");
+    }
+
+    let depthCanvas = document.getElementById("depthCanvas");
+    let depthCtx = depthCanvas.getContext("2d");
+
+    depthCanvas.width = canvas.width;
+    depthCanvas.height = canvas.height;
+
+    let w = depthCanvas.width;
+    let h = depthCanvas.height;
+
+    // Allocate float heightmap
+    heightFloat = new Float32Array(w * h);
+
+    // Sharpness parameter from UI
+    // Physical maximum distance of the relief from the branch
+    // This is controlled by the X coordinate of P3
+    let maxDist = bezierProfile.P3.x;
+
+    // ---------------------------------------------------------
+    // Here you use maxDist to scale your SDF / height values
+    // for example:
+    // depth = normalizedValue * maxDist;
+
+
+  // ---------------------------------------------------------
+  // BUILD SEGMENTS WITH WRAP (X and Y)
+  // ---------------------------------------------------------
+  let segments = [];
+  for (let b of branches) {
+    if (!b.parent) continue;
+
+    let x1 = b.x, y1 = b.y;
+    let x2 = b.parent.x, y2 = b.parent.y;
+
+    // wrap X
+    let dx = x1 - x2;
+    if (dx > canvas.width / 2) x2 += canvas.width;
+    else if (dx < -canvas.width / 2) x2 -= canvas.width;
+
+    // wrap Y
+    let dy = y1 - y2;
+    if (dy > canvas.height / 2) y2 += canvas.height;
+    else if (dy < -canvas.height / 2) y2 -= canvas.height;
+
+    segments.push({ x1, y1, x2, y2 });
+  }
+
+  // ---------------------------------------------------------
+  // BUILD SPATIAL GRID
+  // ---------------------------------------------------------
+  let cell = 20;
+  let cols = Math.ceil(canvas.width / cell);
+  let rows = Math.ceil(canvas.height / cell);
+
+  let grid = Array.from({ length: rows }, () =>
+    Array.from({ length: cols }, () => [])
+  );
+
+  // Insert segments into grid cells
+  for (let s of segments) {
+    let minx = Math.floor(Math.min(s.x1, s.x2) / cell);
+    let maxx = Math.floor(Math.max(s.x1, s.x2) / cell);
+    let miny = Math.floor(Math.min(s.y1, s.y2) / cell);
+    let maxy = Math.floor(Math.max(s.y1, s.y2) / cell);
+
+    for (let gy = miny; gy <= maxy; gy++) {
+      for (let gx = minx; gx <= maxx; gx++) {
+        if (gx >= 0 && gx < cols && gy >= 0 && gy < rows) {
+          grid[gy][gx].push(s);
+        }
+      }
+    }
+  }
+
+  // ---------------------------------------------------------
+  // 1. COMPUTE SDF INTO FLOAT ARRAY
+  // ---------------------------------------------------------
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+
+      let gx = Math.floor(x / cell);
+      let gy = Math.floor(y / cell);
+
+      let minD = Infinity;
+
+      // check neighboring grid cells
+      for (let oy = -1; oy <= 1; oy++) {
+        for (let ox = -1; ox <= 1; ox++) {
+          let cx = gx + ox, cy = gy + oy;
+          if (cx < 0 || cy < 0 || cx >= cols || cy >= rows) continue;
+
+          for (let s of grid[cy][cx]) {
+            let d = distToSegment(x, y, s.x1, s.y1, s.x2, s.y2);
+            if (d < minD) minD = d;
+          }
+        }
+      }
+
+      let hVal = getHeightFromBezier(minD, maxDist);
+
+      heightFloat[y * w + x] = hVal; // store float value
+    }
+  }
+
+  // ---------------------------------------------------------
+  // 2. OPTIONAL BLUR (FLOAT VERSION)
+  // ---------------------------------------------------------
+  let br = +document.getElementById("bilateralRadius").value;
+  if (br > 0) {
+    heightFloat = bilateralBlur(heightFloat, w, h, br, 2, 0.1);
+  }
+
+  // ---------------------------------------------------------
+  // 3. AUTO CONTRAST NORMALIZATION (FLOAT)
+  // ---------------------------------------------------------
+  let minV = Infinity;
+  let maxV = -Infinity;
+
+  for (let i = 0; i < heightFloat.length; i++) {
+    let v = heightFloat[i];
+    if (v < minV) minV = v;
+    if (v > maxV) maxV = v;
+  }
+
+  let range = Math.max(1e-6, maxV - minV);
+
+  for (let i = 0; i < heightFloat.length; i++) {
+    heightFloat[i] = (heightFloat[i] - minV) / range; // normalized 0..1
+  }
+
+  // ---------------------------------------------------------
+  // 4. CONVERT FLOAT → IMAGE FOR DISPLAY
+  // ---------------------------------------------------------
+  let img = depthCtx.createImageData(w, h);
+  let data = img.data;
+
+  for (let i = 0; i < heightFloat.length; i++) {
+    let v = Math.floor(heightFloat[i] * 255);
+    let p = i * 4;
+    data[p] = data[p + 1] = data[p + 2] = v;
+    data[p + 3] = 255;
+  }
+
+  depthCtx.putImageData(img, 0, 0);
+  lastDepthImageData = img; // for PNG export
+}
+
+
+// ---------- Heightfield mesh generation ----------
+// Converts the depth map into a closed 3D solid suitable for STL export.
+// Structure:
+//   1. Top surface (relief) generated from depth map
+//   2. Bottom flat surface (panel thickness)
+//   3. Side walls around the perimeter
+// The result is a watertight manifold mesh.
+
+function buildHeightFieldMesh() {
+  // Ensure float heightmap exists
+  if (!heightFloat) {
+    alert("First generate a depth map.");
+    return;
+  }
+
+  let depthCanvas = document.getElementById("depthCanvas");
+  let width = depthCanvas.width;
+  let height = depthCanvas.height;
+
+  let panelT = +document.getElementById("panelThickness").value; // base panel thickness (mm)
+  let reliefH = +document.getElementById("reliefHeight").value;  // relief height (mm)
+  let invert = document.getElementById("invertToggle").checked;
+
+  // Float height getter (0..1)
+  let getH = (x, y) => {
+    let v = heightFloat[y * width + x];
+    return invert ? (1 - v) : v;
+  };
+
+  let vertices = [];
+  let indices = [];
+
+  // ---------- 1. Top relief surface ----------
+  // Each pixel becomes a vertex at height Z = panelT + relief * reliefH
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+
+      let hVal = getH(x, y);
+      let z = panelT + hVal * reliefH;
+
+      // Center the mesh around (0,0) and flip X for correct orientation
+      let X = -x + width / 2;
+      let Y = y - height / 2;
+
+      vertices.push(X, Y, z);
+    }
+  }
+
+  // Helper to compute vertex index in the top surface
+  let vertIndex = (x, y) => y * width + x;
+
+  // Triangulate the top surface
+  for (let y = 0; y < height - 1; y++) {
+    for (let x = 0; x < width - 1; x++) {
+      let i0 = vertIndex(x, y);
+      let i1 = vertIndex(x + 1, y);
+      let i2 = vertIndex(x, y + 1);
+      let i3 = vertIndex(x + 1, y + 1);
+
+      // Two triangles per quad
+      indices.push(i0, i2, i1);
+      indices.push(i1, i2, i3);
+    }
+  }
+
+  // ---------- 2. Bottom flat surface ----------
+  let baseOffset = vertices.length / 3;
+  let baseZ = 0; // bottom of the panel
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      let X = -x + width / 2;
+      let Y = y - height / 2;
+      vertices.push(X, Y, baseZ);
+    }
+  }
+
+  let baseIndex = (x, y) => baseOffset + y * width + x;
+
+  // Triangulate bottom surface
+  for (let y = 0; y < height - 1; y++) {
+    for (let x = 0; x < width - 1; x++) {
+      let i0 = baseIndex(x, y);
+      let i1 = baseIndex(x + 1, y);
+      let i2 = baseIndex(x, y + 1);
+      let i3 = baseIndex(x + 1, y + 1);
+
+      indices.push(i0, i1, i2);
+      indices.push(i1, i3, i2);
+    }
+  }
+
+  // ---------- 3. Side walls ----------
+  // Connect top and bottom surfaces around the perimeter
+
+  function addSideQuad(topA, topB, botA, botB) {
+    // Two triangles forming a quad
+    indices.push(topA, botA, topB);
+    indices.push(topB, botA, botB);
+  }
+
+  // Left and right walls
+  for (let y = 0; y < height - 1; y++) {
+    // Left side (x = 0)
+    addSideQuad(
+      vertIndex(0, y),
+      vertIndex(0, y + 1),
+      baseIndex(0, y),
+      baseIndex(0, y + 1)
+    );
+
+    // Right side (x = width - 1)
+    addSideQuad(
+      vertIndex(width - 1, y),
+      vertIndex(width - 1, y + 1),
+      baseIndex(width - 1, y),
+      baseIndex(width - 1, y + 1)
+    );
+  }
+
+  // Top and bottom walls
+  for (let x = 0; x < width - 1; x++) {
+    // Bottom edge (y = 0)
+    addSideQuad(
+      vertIndex(x, 0),
+      vertIndex(x + 1, 0),
+      baseIndex(x, 0),
+      baseIndex(x + 1, 0)
+    );
+
+    // Top edge (y = height - 1)
+    addSideQuad(
+      vertIndex(x, height - 1),
+      vertIndex(x + 1, height - 1),
+      baseIndex(x, height - 1),
+      baseIndex(x + 1, height - 1)
+    );
+  }
+
+  // ---------- Build THREE.js mesh ----------
+  if (reliefMesh) {
+    scene.remove(reliefMesh);
+    reliefMesh.geometry.dispose();
+    reliefMesh.material.dispose();
+  }
+
+  let geom = new THREE.BufferGeometry();
+  geom.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
+  geom.setIndex(indices);
+  geom.computeVertexNormals();
+
+  let mat = new THREE.MeshStandardMaterial({
+    color: 0xcccccc,
+    metalness: 0.1,
+    roughness: 0.8,
+    side: THREE.DoubleSide
+  });
+
+  reliefMesh = new THREE.Mesh(geom, mat);
+  scene.add(reliefMesh);
+
+  // Adjust camera to fit the model
+  let size = Math.max(width, height);
+
+  // Re-center camera on the relief mesh
+  target.set(0, 0, panelT + reliefH * 0.5);
+
+  // Adjust radius based on model size
+  radius = Math.max(width, height) * 2;
+
+  updateCamera();
+}
+
+
+// ---------- PNG export (binary) ----------
+function encodePNG16(width, height, data16) {
+  function crc32(buf) {
+    let c = ~0;
+    for (let n = 0; n < buf.length; n++) {
+      c ^= buf[n];
+      for (let k = 0; k < 8; k++) {
+        c = (c >>> 1) ^ (0xEDB88320 & -(c & 1));
+      }
+    }
+    return ~c >>> 0;
+  }
+
+  function chunk(type, data) {
+    const len = data.length;
+    const out = new Uint8Array(8 + len + 4);
+    out[0] = (len >>> 24) & 255;
+    out[1] = (len >>> 16) & 255;
+    out[2] = (len >>> 8) & 255;
+    out[3] = len & 255;
+
+    out.set(type, 4);
+    out.set(data, 8);
+
+    const crc = crc32(out.subarray(4, 8 + len));
+    out[8 + len] = (crc >>> 24) & 255;
+    out[9 + len] = (crc >>> 16) & 255;
+    out[10 + len] = (crc >>> 8) & 255;
+    out[11 + len] = crc & 255;
+
+    return out;
+  }
+
+  const png = [];
+
+  // PNG signature
+  png.push(new Uint8Array([137,80,78,71,13,10,26,10]));
+
+  // IHDR
+  const ihdr = new Uint8Array(13);
+  ihdr[0] = (width >>> 24) & 255;
+  ihdr[1] = (width >>> 16) & 255;
+  ihdr[2] = (width >>> 8) & 255;
+  ihdr[3] = width & 255;
+
+  ihdr[4] = (height >>> 24) & 255;
+  ihdr[5] = (height >>> 16) & 255;
+  ihdr[6] = (height >>> 8) & 255;
+  ihdr[7] = height & 255;
+
+  ihdr[8] = 16; // bit depth
+  ihdr[9] = 0;  // grayscale
+  ihdr[10] = 0; // compression
+  ihdr[11] = 0; // filter
+  ihdr[12] = 0; // interlace
+
+  png.push(chunk([73,72,68,82], ihdr));
+
+  // IDAT
+  const raw = new Uint8Array((width * 2 + 1) * height);
+  let p = 0;
+
+  for (let y = 0; y < height; y++) {
+    raw[p++] = 0; // filter byte
+    for (let x = 0; x < width; x++) {
+      const v = data16[y * width + x];
+      raw[p++] = (v >>> 8) & 255;
+      raw[p++] = v & 255;
+    }
+  }
+
+  const compressed = pako.deflate(raw);
+  png.push(chunk([73,68,65,84], compressed));
+
+  // IEND
+  png.push(chunk([73,69,78,68], new Uint8Array(0)));
+
+  // Combine all chunks
+  let size = 0;
+  for (let part of png) size += part.length;
+
+  const out = new Uint8Array(size);
+  let offset = 0;
+  for (let part of png) {
+    out.set(part, offset);
+    offset += part.length;
+  }
+
+  return out;
+}
+
+function exportHeightmap16() {
+  if (!heightFloat) {
+    alert("Generate depth map first");
+    return;
+  }
+
+  const depthCanvas = document.getElementById("depthCanvas");
+  const w = depthCanvas.width;
+  const h = depthCanvas.height;
+
+  // Create 16-bit buffer (2 bytes per pixel)
+  const buffer = new Uint16Array(w * h);
+
+  // Convert float (0..1) → 16-bit (0..65535)
+  for (let i = 0; i < w * h; i++) {
+    let v = heightFloat[i];        // float 0..1
+    let v16 = Math.floor(v * 65535);
+    buffer[i] = v16;
+  }
+
+  // Encode PNG (16-bit grayscale)
+  const pngData = encodePNG16(w, h, buffer);
+
+  // Download
+  const blob = new Blob([pngData], { type: "image/png" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "heightmap_16bit.png";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+// ---------- STL export (binary) ----------
+// Exports the generated mesh as a binary STL file.
+// STL format:
+//   - 80-byte header
+//   - 4-byte triangle count
+//   - For each triangle:
+//       normal (3 floats)
+//       vertex A (3 floats)
+//       vertex B (3 floats)
+//       vertex C (3 floats)
+//       attribute byte count (uint16)
+
+function exportSTL() {
+  if (!reliefMesh) {
+    alert("Build the 3D mesh first.");
+    return;
+  }
+
+  const geom = reliefMesh.geometry;
+  geom.computeVertexNormals();
+
+  const position = geom.getAttribute("position");
+  const index = geom.index;
+
+  const triangleCount = index ? index.count / 3 : position.count / 3;
+
+  // Allocate STL buffer
+  const buffer = new ArrayBuffer(84 + triangleCount * 50);
+  const view = new DataView(buffer);
+
+  // 80-byte header (empty)
+  let offset = 80;
+
+  // Write triangle count
+  view.setUint32(offset, triangleCount, true);
+  offset += 4;
+
+  const writeFloat32 = v => {
+    view.setFloat32(offset, v, true);
+    offset += 4;
+  };
+
+  const writeUint16 = v => {
+    view.setUint16(offset, v, true);
+    offset += 2;
+  };
+
+  // Write triangles
+  for (let i = 0; i < triangleCount; i++) {
+    let i0, i1, i2;
+
+    if (index) {
+      i0 = index.getX(i * 3);
+      i1 = index.getX(i * 3 + 1);
+      i2 = index.getX(i * 3 + 2);
+    } else {
+      i0 = i * 3;
+      i1 = i * 3 + 1;
+      i2 = i * 3 + 2;
+    }
+
+    const ax = position.getX(i0), ay = position.getY(i0), az = position.getZ(i0);
+    const bx = position.getX(i1), by = position.getY(i1), bz = position.getZ(i1);
+    const cx = position.getX(i2), cy = position.getY(i2), cz = position.getZ(i2);
+
+    // Compute face normal
+    const abx = bx - ax, aby = by - ay, abz = bz - az;
+    const acx = cx - ax, acy = cy - ay, acz = cz - az;
+
+    let nx = aby * acz - abz * acy;
+    let ny = abz * acx - abx * acz;
+    let nz = abx * acy - aby * acx;
+
+    const len = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+    nx /= len; ny /= len; nz /= len;
+
+    // Write normal
+    writeFloat32(nx);
+    writeFloat32(ny);
+    writeFloat32(nz);
+
+    // Write vertices
+    writeFloat32(ax); writeFloat32(ay); writeFloat32(az);
+    writeFloat32(bx); writeFloat32(by); writeFloat32(bz);
+    writeFloat32(cx); writeFloat32(cy); writeFloat32(cz);
+
+    // Attribute byte count
+    writeUint16(0);
+  }
+
+  // Save file
+  const blob = new Blob([buffer], { type: "application/octet-stream" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "relief_panel.stl";
+  link.click();
+}
+
+// ---------- THREE.js scene setup ----------
+// Initializes the 3D viewport used to preview the generated relief mesh.
+// Creates:
+//   - Scene
+//   - Camera
+//   - Renderer
+//   - OrbitControls
+//   - Lighting
+// And starts the render loop.
+
+let scene, camera, renderer, reliefMesh = null;
+
+function initThree() {
+  const container = document.getElementById("threeContainer");
+
+  // Compute initial viewport size
+  const w = container.clientWidth || window.innerWidth - 420;
+  const h = container.clientHeight || window.innerHeight;
+
+  // Create scene
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xffffff);
+
+  // Perspective camera (Z-up)
+  camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 10000);
+  camera.position.set(0, -500, 500);
+  camera.up.set(0, 0, 1);
+
+  // WebGL renderer
+renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(w, h);
+container.appendChild(renderer.domElement);
+
+// -------------------- CUSTOM CAMERA CONTROL (no OrbitControls) --------------------
+
+// Camera spherical coordinates
+let radius = 800;          // distance from camera to target
+let theta = 90;            // horizontal angle in degrees
+let phi = 90;              // vertical angle in degrees
+
+// Camera target (center of the model)
+let target = new THREE.Vector3(0, 0, 0);
+
+// Mouse state
+let isDragging = false;
+let isRightButton = false;
+let prevX = 0, prevY = 0;
+let isOverCanvas = false;
+
+// Update camera position based on spherical coordinates
+function updateCamera() {
+    const rPhi = THREE.MathUtils.degToRad(phi);
+    const rTheta = THREE.MathUtils.degToRad(theta);
+
+    camera.position.set(
+        radius * Math.cos(rPhi) * Math.cos(rTheta) + target.x,
+        radius * Math.cos(rPhi) * Math.sin(rTheta) + target.y,
+        radius * Math.sin(rPhi) + target.z
+    );
+
+    camera.lookAt(target);
+}
+
+// Detect mouse entering/leaving canvas
+renderer.domElement.addEventListener("mouseenter", () => { isOverCanvas = true; });
+renderer.domElement.addEventListener("mouseleave", () => { isOverCanvas = false; });
+
+// Mouse button pressed
+renderer.domElement.addEventListener("mousedown", (e) => {
+    if (!isOverCanvas) return;
+    isDragging = true;
+    isRightButton = (e.button === 2);
+    prevX = e.clientX;
+    prevY = e.clientY;
+});
+
+// Mouse button released
+window.addEventListener("mouseup", () => { isDragging = false; });
+
+// Mouse movement
+renderer.domElement.addEventListener("mousemove", (e) => {
+    if (!isDragging || !isOverCanvas) return;
+
+    const dx = e.clientX - prevX;
+    const dy = e.clientY - prevY;
+    prevX = e.clientX;
+    prevY = e.clientY;
+
+    if (!isRightButton) {
+        // Rotate camera
+        theta -= dx * 0.5;
+        theta = ((theta % 360) + 360) % 360;
+
+        phi += dy * 0.5;
+        phi = Math.max(-89.9, Math.min(89.9, phi));
+    } else {
+        // Pan camera target
+        const panSpeed = 1;
+        const forward = new THREE.Vector3();
+        const right = new THREE.Vector3();
+        const up = new THREE.Vector3();
+        const pan = new THREE.Vector3();
+
+        camera.getWorldDirection(forward);
+        right.crossVectors(camera.up, forward).normalize();
+        up.copy(camera.up).normalize();
+
+        right.multiplyScalar(dx * panSpeed);
+        up.multiplyScalar(dy * panSpeed);
+
+        pan.addVectors(right, up);
+        target.add(pan);
+    }
+
+    updateCamera();
+});
+
+// Mouse wheel zoom
+renderer.domElement.addEventListener("wheel", (e) => {
+    if (!isOverCanvas) return;
+
+    e.preventDefault(); // prevent page scroll
+
+    radius += e.deltaY * 0.5;
+    radius = Math.max(50, Math.min(5000, radius));
+
+    updateCamera();
+}, { passive: false });
+
+// Disable context menu on right click
+renderer.domElement.addEventListener("contextmenu", (e) => e.preventDefault());
+
+// Initial camera update
+updateCamera();
+
+  // Ambient light
+  const amb = new THREE.AmbientLight(0xffffff, 0.4);
+  scene.add(amb);
+
+  // Directional light
+  const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+  dir.position.set(300, -300, 500);
+  scene.add(dir);
+
+  // Resize handler
+  window.addEventListener("resize", onWindowResize);
+
+  // Start render loop
+  animateThree();
+}
+
+// Adjust camera and renderer on window resize
+function onWindowResize() {
+  if (!renderer || !camera) return;
+
+  const container = document.getElementById("threeContainer");
+  const w = container.clientWidth || window.innerWidth - 420;
+  const h = container.clientHeight || window.innerHeight;
+
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+}
+
+
+// Render loop
+function animateThree() {
+  requestAnimationFrame(animateThree);
+  if (renderer && scene && camera) {
+    renderer.render(scene, camera);
+  }
+}
+
+    // ---------- Wiring ----------
+initBezierEditor();
+
+document.getElementById("loadAttractorImageBtn").onclick = () => {
+    document.getElementById("attractorImageInput").click();
+};
+
+document.getElementById("attractorImageInput").onchange = (e) => {
+    let file = e.target.files[0];
+    if (file) loadAttractorImage(file);
+};
+
+    document.getElementById("start").onclick = () => {
+      initGrowth();
+    };
+
+document.getElementById("depthThickness").addEventListener("input", () => {
+    const newValue = parseFloat(document.getElementById("depthThickness").value);
+    setMaxThickness(newValue);
+});
+
+    document.getElementById("genDepth").onclick = () => {
+      generateDepthMapSDF();
+    };
+
+    document.getElementById("buildMesh").onclick = () => {
+      buildHeightFieldMesh();
+    };
+
+    document.getElementById("exportSTL").onclick = () => {
+      exportSTL();
+    };
+
+// Enable or disable the "Load attractor image" button based on attractor mode
+        document.getElementById("attrMode").addEventListener("change", function () {
+    var mode = this.value;
+    var btn = document.getElementById("loadAttractorImageBtn");
+
+    // Enable/disable image load button
+    if (mode === "fromfile") {
+        btn.style.display = "block";
+    } else {
+        btn.style.display = "none";
+    }
+
+    // Show/hide UI elements for grid-based attractor modes
+    let gridUI = document.getElementById("gridPeriodLabel");
+    let probUI = document.getElementById("gridProbLabel");
+        let jitterUI = document.getElementById("gridJitterLabel");
+
+if (mode === "rectmesh" || mode === "hexmesh") {
+    gridUI.style.display = "block";
+    probUI.style.display = "block";
+    jitterUI.style.display = "block";
+} else {
+    gridUI.style.display = "none";
+    probUI.style.display = "none";
+    jitterUI.style.display = "none";
+}
+
+});
+
+function initCanvasBackgrounds() {
+    // Main growth canvas
+    const c1 = $("#canvas");
+    const ctx1 = c1.getContext("2d");
+    ctx1.fillStyle = "#000"; // или твой цвет
+    ctx1.fillRect(0, 0, c1.width, c1.height);
+
+    // Bezier editor canvas
+    const c2 = $("#bezierCanvas");
+    const ctx2 = c2.getContext("2d");
+    ctx2.fillStyle = "#333"; // твой цвет
+    ctx2.fillRect(0, 0, c2.width, c2.height);
+
+    // Depth canvas
+    const c3 = $("#depthCanvas");
+    const ctx3 = c3.getContext("2d");
+    ctx3.fillStyle = "#000"; // твой цвет
+    ctx3.fillRect(0, 0, c3.width, c3.height);
+}
+
+
+    // init three.js
+window.addEventListener("load", () => {
+    const initial = parseFloat(document.getElementById("depthThickness").value);
+    setMaxThickness(initial);
+
+    initThree();
+});
+
+    // init three.js
+window.addEventListener("load", () => {
+    const initial = parseFloat(document.getElementById("depthThickness").value);
+    setMaxThickness(initial);
+    initThree();
+    initCanvasBackgrounds();
+    drawBezierEditor();
+    drawAttractors();
+    generateDepthMapSDF(); // если есть
+});
+
+/*]]>*/
+</script>
