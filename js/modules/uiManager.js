@@ -66,7 +66,7 @@ UIManager.prototype.createUI = function() {
                 <tr>
                     <td style="padding: 3px; vertical-align: middle;">Attractors:</td>
                     <td style="padding: 3px;">
-                        <input type="number" id="points" value="5000" style="width: 100%;">
+                        <input type="number" id="points" value="1000" style="width: 100%;">
                     </td>
                 </tr>
                 
@@ -80,7 +80,7 @@ UIManager.prototype.createUI = function() {
                 <tr>
                     <td style="padding: 3px;">Influence distance:</td>
                     <td style="padding: 3px;">
-                        <input type="number" id="influenceDist" value="10" style="width: 100%;">
+                        <input type="number" id="influenceDist" value="30" style="width: 100%;">
                     </td>
                 </tr>
                 
@@ -101,7 +101,7 @@ UIManager.prototype.createUI = function() {
                 <tr>
                     <td style="padding: 3px;">Canvas height:</td>
                     <td style="padding: 3px;">
-                        <input type="number" id="canvasH" value="200" style="width: 100%;">
+                        <input type="number" id="canvasH" value="300" style="width: 100%;">
                     </td>
                 </tr>
                 
@@ -216,7 +216,7 @@ UIManager.prototype.createUI = function() {
                 </tr>
                 
                 <tr>
-                    <td style="padding: 3px;">Max thickness (px):</td>
+                    <td style="padding: 3px;">Max thickness</td>
                     <td style="padding: 3px;">
                         <input type="number" id="depthThickness" value="25" style="width: 100%;">
                     </td>

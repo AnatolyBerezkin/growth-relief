@@ -316,12 +316,12 @@ GrowthReliefApp.prototype.startGrowth = function() {
     
     // CRITICAL: Read ALL parameters from UI before starting growth
     const growthParams = {
-        points: this.getElementNumberValue('points', 5000),
+        points: this.getElementNumberValue('points', 1000),
         killDist: this.getElementNumberValue('killDist', 5),
-        influenceDist: this.getElementNumberValue('influenceDist', 10),
+        influenceDist: this.getElementNumberValue('influenceDist', 30),
         branchLen: this.getElementNumberValue('branchLen', 3),
         canvasW: this.getElementNumberValue('canvasW', 300),
-        canvasH: this.getElementNumberValue('canvasH', 200),
+        canvasH: this.getElementNumberValue('canvasH', 300),
         roots: this.getElementNumberValue('roots', 5)
     };
     

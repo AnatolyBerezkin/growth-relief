@@ -32,12 +32,12 @@ function GrowthSystem() {
     this.iterationCount = 0;
     
     this.params = {
-        points: 5000,        // Number of attractors
+        points: 1000,        // Number of attractors
         killDist: 5,         // Distance at which attractor is "killed"
-        influenceDist: 10,   // Radius of attractor influence
+        influenceDist: 30,   // Radius of attractor influence
         branchLen: 3,        // Length of each growth segment
         canvasW: 300,        // Canvas width
-        canvasH: 200,        // Canvas height
+        canvasH: 300,        // Canvas height
         attrMode: 'uniform', // Attractor generation mode: 'uniform', 'rectmesh', 'hexmesh'
         roots: 5,            // Number of root branches
         rootMode: 'random0', // Root placement mode: 'random0', 'random1', 'line', 'circle'

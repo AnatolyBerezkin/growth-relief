@@ -4,14 +4,18 @@ function BezierEditor(canvasId) {
     this.canvasId = canvasId;
     this.canvas = null;
     this.ctx = null;
+
+    // NEW: Add padding property here
+    this.padding = 10; // Padding for coordinate axes (5px on all sides)
+    this.maxHeight = 1.0;
     
     // Initialize with default profile
     this.maxThickness = 25; // Default value
     this.profile = {
         P0: { x: 0, y: 1 },
-        P1: { x: this.maxThickness * 0.25, y: 1 },    // 25% of maxThickness
-        P2: { x: this.maxThickness * 0.75, y: 0 },   // 75% of maxThickness
-        P3: { x: this.maxThickness, y: 0 },          // max thickness
+        P1: { x: 0, y: 0.5 },    // 25% of maxThickness
+        P2: { x: this.maxThickness * (0.6 - 0.25), y: 0 },   // 75% of maxThickness
+        P3: { x: this.maxThickness * 0.6, y: 0 },          // max thickness
         table: new Float32Array(512)
     };
     
@@ -89,6 +93,9 @@ BezierEditor.prototype.draw = function() {
     const ctx = this.ctx;
     const w = this.canvas.width;
     const h = this.canvas.height;
+    const padding = this.padding || 5; // Use padding property, default to 5px
+    const graphWidth = w - 2 * padding;
+    const graphHeight = h - 2 * padding;
     
     // Clear canvas
     ctx.fillStyle = '#333';
@@ -96,68 +103,117 @@ BezierEditor.prototype.draw = function() {
     
     const { P0, P1, P2, P3 } = this.profile;
     
-    // Draw grid
+    // Draw graph area background (darker)
+    ctx.fillStyle = '#222';
+    ctx.fillRect(padding, padding, graphWidth, graphHeight);
+    
+    // Draw coordinate axes with padding
+    ctx.strokeStyle = '#666';
+    ctx.lineWidth = 2;
+    
+    // X-axis (5px from bottom)
+    ctx.beginPath();
+    ctx.moveTo(padding, h - padding);
+    ctx.lineTo(w - padding, h - padding);
+    ctx.stroke();
+    
+    // Y-axis (5px from left)
+    ctx.beginPath();
+    ctx.moveTo(padding, padding);
+    ctx.lineTo(padding, h - padding);
+    ctx.stroke();
+    
+    // Draw grid inside the graph area only
     ctx.strokeStyle = '#444';
     ctx.lineWidth = 1;
     
-    // Vertical lines
+    // Vertical lines (only inside graph area)
     for (let i = 0; i <= 10; i++) {
-        const x = (i / 10) * w;
+        const x = padding + (i / 10) * graphWidth;
         ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
+        ctx.moveTo(x, padding);
+        ctx.lineTo(x, h - padding);
         ctx.stroke();
     }
     
-    // Horizontal lines
+    // Horizontal lines (only inside graph area)
     for (let i = 0; i <= 10; i++) {
-        const y = (i / 10) * h;
+        const y = padding + (i / 10) * graphHeight;
         ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
+        ctx.moveTo(padding, y);
+        ctx.lineTo(w - padding, y);
         ctx.stroke();
     }
     
-    // Draw Bezier curve
-    ctx.beginPath();
+// 1. FIRST: Draw the Bezier curve from P1 to P2 (WHITE)
+    ctx.beginPath(); // Start NEW path for Bezier curve
     
     const x0 = P0.x;
     const x3 = P3.x;
     
     // Start at P1
-    let screenX = (P1.x / this.maxThickness) * w;
-    let screenY = h - P1.y * h;
+    screenX = padding + (P1.x / this.maxThickness) * graphWidth;
+    screenY = padding + (1 - P1.y) * graphHeight;
     ctx.moveTo(screenX, screenY);
     
-    // Draw curve
-    for (let i = 0; i <= 200; i++) {
+    // Draw the actual Bezier curve
+    for (let i = 1; i <= 200; i++) {
         const t = i / 200;
         const x = x0 + (x3 - x0) * t;
         const y = this.sampleBezier(P0, P1, P2, P3, t);
         
-        screenX = (x / this.maxThickness) * w;
-        screenY = h - y * h;
+        screenX = padding + (x / this.maxThickness) * graphWidth;
+        screenY = padding + (1 - y) * graphHeight;
         ctx.lineTo(screenX, screenY);
     }
     
     // End at P2
-    screenX = (P2.x / this.maxThickness) * w;
-    screenY = h - P2.y * h;
+    screenX = padding + (P2.x / this.maxThickness) * graphWidth;
+    screenY = padding + (1 - P2.y) * graphHeight;
     ctx.lineTo(screenX, screenY);
     
-    ctx.strokeStyle = '#4a90e2';
+    // Apply WHITE color to Bezier curve
+    ctx.strokeStyle = '#ffffff';  // White color for Bezier curve
     ctx.lineWidth = 2;
     ctx.stroke();
     
-    // Draw control points
-    this.drawPoint(P0, '#888888'); // P0 - non-draggable (gray)
-    this.drawPoint(P1, '#222222'); // P1 - draggable
-    this.drawPoint(P2, '#222222'); // P2 - draggable
-    this.drawPoint(P3, '#ffffff'); // P3 - draggable (white)
+    // 2. SECOND: Draw connection lines separately (BLUE)
+    // Draw connection lines between P0-P1 and P2-P3
+    ctx.strokeStyle = '#4a90e2';
+    ctx.lineCap = 'butt';    // Flat line ends (no rounding)
+    ctx.lineJoin = 'miter';  // Sharp corners
+    ctx.lineWidth = 3;
+    ctx.beginPath(); // Start NEW path for connection lines
     
-    // Draw P3 label with its x coordinate
-    screenX = (P3.x / this.maxThickness) * w;
-    screenY = h - P3.y * h;
+    // Line from P0 to P1
+    screenX = padding + (P0.x / this.maxThickness) * graphWidth;
+    screenY = padding + (1 - P0.y) * graphHeight;
+    ctx.moveTo(screenX, screenY);
+    
+    screenX = padding + (P1.x / this.maxThickness) * graphWidth;
+    screenY = padding + (1 - P1.y) * graphHeight;
+    ctx.lineTo(screenX, screenY);
+    
+    // Line from P2 to P3
+    screenX = padding + (P2.x / this.maxThickness) * graphWidth;
+    screenY = padding + (1 - P2.y) * graphHeight;
+    ctx.moveTo(screenX, screenY);
+    
+    screenX = padding + (P3.x / this.maxThickness) * graphWidth;
+    screenY = padding + (1 - P3.y) * graphHeight;
+    ctx.lineTo(screenX, screenY);
+    
+    ctx.stroke();
+    
+    // Draw control points (adjusted for padding)
+    this.drawPoint(P0, '#888888', padding, graphWidth, graphHeight); // P0 - non-draggable (gray)
+    this.drawPoint(P1, '#222222', padding, graphWidth, graphHeight); // P1 - draggable
+    this.drawPoint(P2, '#222222', padding, graphWidth, graphHeight); // P2 - draggable
+    this.drawPoint(P3, '#ffffff', padding, graphWidth, graphHeight); // P3 - draggable (white)
+    
+    // Draw P3 label with its x coordinate (adjusted for padding)
+    screenX = padding + (P3.x / this.maxThickness) * graphWidth;
+    screenY = padding + (1 - P3.y) * graphHeight; // Invert Y coordinate
     
     ctx.fillStyle = '#fff';
     ctx.font = '12px sans-serif';
@@ -165,21 +221,34 @@ BezierEditor.prototype.draw = function() {
     ctx.fillText(`x = ${P3.x.toFixed(1)}`, screenX, screenY - 10);
 };
 
-BezierEditor.prototype.drawPoint = function(point, color) {
+BezierEditor.prototype.drawPoint = function(point, color, padding, graphWidth, graphHeight) {
+    if (!this.ctx || !this.canvas) return;
+    
+    const ctx = this.ctx;
     const w = this.canvas.width;
     const h = this.canvas.height;
     
-    const x = (point.x / this.maxThickness) * w;
-    const y = h - point.y * h;
+    // Use default padding if not provided
+    padding = padding || this.padding || 5;
+    graphWidth = graphWidth || w - 2 * padding;
+    graphHeight = graphHeight || h - 2 * padding;
     
-    this.ctx.beginPath();
-    this.ctx.arc(x, y, 5, 0, Math.PI * 2);
-    this.ctx.fillStyle = color;
-    this.ctx.fill();
+    // Calculate screen coordinates with padding
+    const screenX = padding + (point.x / this.maxThickness) * graphWidth;
+    const screenY = padding + (1 - point.y) * graphHeight; // Invert Y coordinate
     
-    this.ctx.lineWidth = 1;
-    this.ctx.strokeStyle = '#ffffff';
-    this.ctx.stroke();
+    // Draw point
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(screenX, screenY, 6, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Draw point border
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(screenX, screenY, 6, 0, Math.PI * 2);
+    ctx.stroke();
 };
 
 BezierEditor.prototype.setupEventListeners = function() {
@@ -204,22 +273,37 @@ BezierEditor.prototype.setupEventListeners = function() {
 
 BezierEditor.prototype.onMouseDown = function(event) {
     const rect = this.canvas.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * this.maxThickness;
-    const y = 1 - (event.clientY - rect.top) / rect.height;
+    const padding = this.padding || 5;
+    const graphWidth = rect.width - 2 * padding;
+    const graphHeight = rect.height - 2 * padding;
+    
+    // Mouse coordinates in pixels
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
     
     // User can only drag P1, P2, and P3 (not P0)
     const points = ['P1', 'P2', 'P3'];
     
     for (let p of points) {
-        const dx = x - this.profile[p].x;
-        const dy = y - this.profile[p].y;
+        const point = this.profile[p];
         
-        // Hit radius in physical units
-        if (dx * dx + dy * dy < (this.maxThickness * 0.03) ** 2) {
+        // Convert point coordinates to PIXELS
+        const pointX = padding + (point.x / this.maxThickness) * graphWidth;
+        const pointY = padding + (1 - point.y) * graphHeight;
+        
+        // Calculate distance in PIXELS
+        const dx = mouseX - pointX;
+        const dy = mouseY - pointY;
+        
+        // Hit radius in PIXELS (10px = comfortable click area)
+        if (dx * dx + dy * dy < 100) { // 10px * 10px = 100
             this.draggingPoint = p;
             return;
         }
     }
+    
+    // If no point was clicked
+    this.draggingPoint = null;
 };
 
 BezierEditor.prototype.onMouseMove = function(event) {
