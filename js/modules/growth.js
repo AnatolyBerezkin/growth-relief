@@ -1,4 +1,5 @@
 // growth.js - Growth System with enhanced attractor generation modes
+// Updated with additional stop conditions
 
 // Branch class - represents a single growth segment
 function Branch(x, y, parent = null, len = 3) {
@@ -26,6 +27,10 @@ function GrowthSystem() {
     this.branches = [];      // Array of branch segments
     this.canvas = null;      // Canvas element for 2D visualization
     this.ctx = null;         // Canvas 2D context
+    
+    // Add iteration counter for infinite loop protection
+    this.iterationCount = 0;
+    
     this.params = {
         points: 5000,        // Number of attractors
         killDist: 5,         // Distance at which attractor is "killed"
@@ -44,7 +49,11 @@ function GrowthSystem() {
         gridCellsX: 35,      // Number of grid cells horizontally (for mesh modes)
         gridCellsY: 35,      // Number of grid cells vertically (for mesh modes)
         gridProb: 1.0,       // Probability of placing attractor in each cell
-        gridJitter: 0.2      // Random displacement factor (0-1)
+        gridJitter: 0.2,     // Random displacement factor (0-1)
+        
+        // New parameters for stop conditions
+        maxIterations: 2000,  // Maximum iterations to prevent infinite loops
+        minMovement: 0.1      // Minimum average movement per step (pixels)
     };
     this.isGrowing = false;  // Growth simulation state
 }
@@ -341,10 +350,13 @@ GrowthSystem.prototype.generateCircleRoots = function() {
 };
 
 // =============================================
-// GROWTH SIMULATION CORE (unchanged)
+// GROWTH SIMULATION CORE (UPDATED WITH STOP CONDITIONS)
 // =============================================
 
 GrowthSystem.prototype.step = function() {
+    // Increment iteration counter for infinite loop protection
+    this.iterationCount++;
+    
     // Reset growth directions
     for (let b of this.branches) {
         b.growDir.x = 0;
@@ -405,11 +417,49 @@ GrowthSystem.prototype.step = function() {
         }
     }
 
-    // Check if growth should stop
+    // =====================================================
+    // ENHANCED STOP CONDITIONS (MINIMAL CHANGES)
+    // =====================================================
+
+    // 1. No new branches created
     if (newBranches.length === 0) {
+        console.log('Growth stopped: no new branches created');
+        return false;
+    }
+    
+    // 2. All attractors consumed
+    if (this.attractors.length === 0) {
+        console.log('Growth stopped: all attractors consumed');
+        return false;
+    }
+    
+    // 3. MOVEMENT STAGNATION CHECK: Average movement is negligible
+    let totalMovement = 0;
+    for (let nb of newBranches) {
+        if (!nb.parent) continue; // Should not happen for new branches
+        
+        // Calculate actual movement distance (considering wrapping)
+        const dx = Math.abs(nb.x - nb.parent.x);
+        const dy = Math.abs(nb.y - nb.parent.y);
+        
+        // Simplified distance calculation (Euclidean distance)
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        totalMovement += dist;
+    }
+    
+    const avgMovement = totalMovement / newBranches.length;
+    if (avgMovement < this.params.minMovement) {
+        console.log(`Growth stopped: movement stagnation (avg: ${avgMovement.toFixed(3)} px, min: ${this.params.minMovement} px)`);
+        return false;
+    }
+    
+    // 4. MAXIMUM ITERATION LIMIT: Safety net for infinite loops
+    if (this.iterationCount >= this.params.maxIterations) {
+        console.log(`Growth stopped: maximum iterations reached (${this.iterationCount})`);
         return false;
     }
 
+    // If all checks pass, add new branches and continue
     this.branches.push(...newBranches);
     return true;
 };
@@ -457,6 +507,8 @@ GrowthSystem.prototype.draw = function() {
 };
 
 GrowthSystem.prototype.startGrowth = function(onComplete) {
+    // Reset iteration counter when starting new growth
+    this.iterationCount = 0;
     this.isGrowing = true;
     
     // Initial generation
@@ -475,7 +527,7 @@ GrowthSystem.prototype.startGrowth = function(onComplete) {
         } else {
             this.isGrowing = false;
             if (onComplete) onComplete();
-            console.log('Growth finished');
+            console.log('Growth finished after', this.iterationCount, 'iterations');
         }
     };
     
@@ -484,12 +536,15 @@ GrowthSystem.prototype.startGrowth = function(onComplete) {
 
 GrowthSystem.prototype.stopGrowth = function() {
     this.isGrowing = false;
+    console.log('Growth manually stopped after', this.iterationCount, 'iterations');
 };
 
 GrowthSystem.prototype.reset = function() {
     this.attractors = [];
     this.branches = [];
     this.isGrowing = false;
+    this.iterationCount = 0; // Reset iteration counter
+    
     if (this.ctx && this.canvas) {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -501,6 +556,11 @@ GrowthSystem.prototype.getBranches = function() {
 
 GrowthSystem.prototype.getAttractors = function() {
     return this.attractors;
+};
+
+// New method to get iteration count for debugging
+GrowthSystem.prototype.getIterationCount = function() {
+    return this.iterationCount;
 };
 
 // Expose globally

@@ -1,0 +1,7 @@
+<div style="max-width: 800px; margin: 20px auto;">
+    <iframe src="https://anatolyberezkin.github.io/growth-relief/" width="100%" height="750" style="border: none; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);" title=
+    "Growth Relief Generator"></iframe>
+    <p style="text-align: center; color: #666; font-size: 12px; margin-top: 10px;">
+        Drag panel to move • Use +/- to collapse • Export PNG/STL
+    </p>
+</div>
