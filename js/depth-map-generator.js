@@ -6,28 +6,65 @@ function DepthMapGenerator() {
     this.height = 0;
 }
 
-// Helper function: distance from point to line segment
-DepthMapGenerator.prototype.distToSegment = function(px, py, x1, y1, x2, y2) {
-    const vx = x2 - x1;
-    const vy = y2 - y1;
-    const wx = px - x1;
-    const wy = py - y1;
+// Helper function: distance from point to line segment with periodic boundary conditions
+DepthMapGenerator.prototype.distToSegment = function(px, py, x1, y1, x2, y2, width, height) {
+    // Calculate cyclic distance between two points considering toroidal topology
+    const cyclicDist = (ax, ay, bx, by) => {
+        let dx = Math.abs(ax - bx);
+        let dy = Math.abs(ay - by);
+        
+        // Wrap around X axis if world is periodic
+        if (width) {
+            dx = Math.min(dx, width - dx);
+        }
+        
+        // Wrap around Y axis if world is periodic
+        if (height) {
+            dy = Math.min(dy, height - dy);
+        }
+        
+        return Math.sqrt(dx * dx + dy * dy);
+    };
+    
+    // Segment vector with periodic wrapping
+    let vx = x2 - x1;
+    let vy = y2 - y1;
+    
+    // Adjust segment vector if it crosses the periodic boundary
+    if (width && Math.abs(vx) > width / 2) {
+        vx = vx > 0 ? vx - width : vx + width;
+    }
+    if (height && Math.abs(vy) > height / 2) {
+        vy = vy > 0 ? vy - height : vy + height;
+    }
+    
+    // Vector from segment start to point with periodic wrapping
+    let wx = px - x1;
+    let wy = py - y1;
+    
+    if (width && Math.abs(wx) > width / 2) {
+        wx = wx > 0 ? wx - width : wx + width;
+    }
+    if (height && Math.abs(wy) > height / 2) {
+        wy = wy > 0 ? wy - height : wy + height;
+    }
     
     // Projection of w onto v
     const c1 = vx * wx + vy * wy;
-    if (c1 <= 0) return Math.hypot(px - x1, py - y1);
+    if (c1 <= 0) return cyclicDist(px, py, x1, y1);
     
     const c2 = vx * vx + vy * vy;
-    if (c2 <= c1) return Math.hypot(px - x2, py - y2);
+    if (c2 <= c1) return cyclicDist(px, py, x2, y2);
     
     const b = c1 / c2;
     const bx = x1 + b * vx;
     const by = y1 + b * vy;
     
-    return Math.hypot(px - bx, py - by);
+    // Calculate distance to the projected point on the segment
+    return cyclicDist(px, py, bx, by);
 };
 
-// Bilateral blur function for float arrays
+// Bilateral blur function for float arrays with periodic boundary conditions
 DepthMapGenerator.prototype.bilateralBlur = function(img, width, height, radius, sigmaSpatial = 2, sigmaRange = 0.1) {
     if (radius < 1) return img;
     
@@ -41,7 +78,7 @@ DepthMapGenerator.prototype.bilateralBlur = function(img, width, height, radius,
     
     const twoSigmaRange2 = 2 * sigmaRange * sigmaRange;
     
-    // Apply bilateral filter
+    // Apply bilateral filter with periodic boundary conditions
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
             const center = img[y * width + x];
@@ -49,10 +86,15 @@ DepthMapGenerator.prototype.bilateralBlur = function(img, width, height, radius,
             let wsum = 0;
             
             for (let dy = -radius; dy <= radius; dy++) {
-                const yy = Math.min(height - 1, Math.max(0, y + dy));
+                // Periodic wrapping for Y coordinate
+                let yy = y + dy;
+                yy = ((yy % height) + height) % height;
                 
                 for (let dx = -radius; dx <= radius; dx++) {
-                    const xx = Math.min(width - 1, Math.max(0, x + dx));
+                    // Periodic wrapping for X coordinate
+                    let xx = x + dx;
+                    xx = ((xx % width) + width) % width;
+                    
                     const val = img[yy * width + xx];
                     
                     // Spatial weight
@@ -93,26 +135,16 @@ DepthMapGenerator.prototype.generateFromBranches = function(branches, width, hei
         return this.heightFloat;
     }
     
-    // Build segments from branches with wrapping
-    const segments = [];
-    for (let b of branches) {
-        if (!b.parent) continue;
-        
-        let x1 = b.x, y1 = b.y;
-        let x2 = b.parent.x, y2 = b.parent.y;
-        
-        // Wrap coordinates
-        let dx = x1 - x2;
-        if (dx > width / 2) x2 += width;
-        else if (dx < -width / 2) x2 -= width;
-        
-        let dy = y1 - y2;
-        if (dy > height / 2) y2 += height;
-        else if (dy < -height / 2) y2 -= height;
-        
-        segments.push({ x1, y1, x2, y2 });
+    // Build segments from branches (no wrapping needed)
+const segments = [];
+for (let b of branches) {
+    if (!b.parent) continue;
+    segments.push({ 
+        x1: b.x, y1: b.y, 
+        x2: b.parent.x, y2: b.parent.y 
+        });
     }
-    
+
     console.log(`Generating depth map from ${segments.length} segments`);
     
     // Get bilateral radius from UI - UPDATED to handle multiple cases
@@ -159,32 +191,34 @@ DepthMapGenerator.prototype.generateFromBranches = function(branches, width, hei
     // Use P3.x from bezier editor as maximum distance
     const maxDist = bezierEditor.profile.P3.x;
     
-    // Compute SDF to segments
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            const gx = Math.floor(x / cell);
-            const gy = Math.floor(y / cell);
-            
-            let minD = Infinity;
-            
-            // Check neighboring grid cells (3x3 neighborhood)
-            for (let oy = -1; oy <= 1; oy++) {
-                for (let ox = -1; ox <= 1; ox++) {
-                    const cx = gx + ox, cy = gy + oy;
-                    if (cx < 0 || cy < 0 || cx >= cols || cy >= rows) continue;
-                    
-                    for (let s of grid[cy][cx]) {
-                        const d = this.distToSegment(x, y, s.x1, s.y1, s.x2, s.y2);
-                        if (d < minD) minD = d;
-                    }
+// Compute SDF to segments with periodic boundary conditions
+for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+        const gx = Math.floor(x / cell);
+        const gy = Math.floor(y / cell);
+        
+        let minD = Infinity;
+        
+        // Check 3x3 neighborhood with PERIODIC WRAPPING
+        for (let oy = -1; oy <= 1; oy++) {
+            for (let ox = -1; ox <= 1; ox++) {
+                // Periodic wrapping for grid coordinates
+                let cx = (gx + ox + cols) % cols;
+                let cy = (gy + oy + rows) % rows;
+                
+                for (let s of grid[cy][cx]) {
+                    // Use periodic distance function
+                    const d = this.distToSegment(x, y, s.x1, s.y1, s.x2, s.y2, width, height);
+                    if (d < minD) minD = d;
                 }
             }
-            
-            // Convert distance to height using Bezier profile
-            const hVal = bezierEditor.getHeightFromDistance(minD);
-            this.heightFloat[y * width + x] = hVal;
         }
+        
+        // Convert distance to height using Bezier profile
+        const hVal = bezierEditor.getHeightFromDistance(minD);
+        this.heightFloat[y * width + x] = hVal;
     }
+}
     
     // Apply bilateral blur if needed
     if (blurRadius > 0) {
